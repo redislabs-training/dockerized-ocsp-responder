@@ -16,7 +16,7 @@ __NOTE__: This will just create certs for testing and very basic openssl command
 Pass in a root doamin for the CA and the OCSP URL you would like to have in the OCSP extension in the certificates (this will be used as the OCSP responder to validate the cert).
 
 ```
-docker run -d -e ROOT_DOMAIN=demo.redislabs.com -e OCSP_URL=http://127.0.0.1:2560 --name ocsp -p 2560:2560 ocsp-responder:latest
+docker run -d -e ROOT_DOMAIN=demo.redislabs.com -e OCSP_URL=http://127.0.0.1:2560 --name ocsp -p 2560:2560 ghcr.io/redislabs-training/ocsp-responder/ocsp-responder:latest
 ```
 
 ## Creating Certs
