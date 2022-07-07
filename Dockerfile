@@ -28,8 +28,6 @@ RUN chmod +x create_chain.sh && \
     chmod +x get_cert &&\
     chmod +x get_key
 
-RUN ./create_chain.sh
-
 COPY src/docker-entrypoint.sh docker-entrypoint.sh
 EXPOSE 2560
 ENTRYPOINT [ "/bin/sh", "docker-entrypoint.sh" ]
