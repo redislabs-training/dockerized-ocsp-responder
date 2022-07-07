@@ -1,7 +1,5 @@
 #!/bin/sh
 
-./create_chain.sh
-
 #This entrypoint is responsible for leaving the OSCP running to accept requests
 openssl ocsp -url http://0.0.0.0:2560 -text \
       -index /root/tls/intermediate/index.txt \
