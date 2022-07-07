@@ -1,19 +1,22 @@
-# Create OCSP Certs and OCSP Responder
+# Create OCSP Certs and OCSP Responder for Testing
 
 This is a very simple docker wrapper around openssl to give a basic CA and OCSP responder.
 
-1. CA and intermediate cert will be created
+1. Private CA and intermediate cert will be created
 2. Listen on a specific port for OCSP validation
 3. Create client certs and server certs (with SAN wildcard)
 4. Validate a cert
 5. Revoke a cert
+
+__NOTE__: This will just create certs for testing and very basic openssl commands for the responder. This is for testing only.
+
 
 ## Running
 
 Pass in a root doamin for the CA and the OCSP URL you would like to have in the OCSP extension in the certificates (this will be used as the OCSP responder to validate the cert).
 
 ```
-docker run -d -e ROOT_DOMAIN=demo.redislabs.com -e OCSP_URL=http://127.0.0.1:2560 --name ocsp ghcr.io/redislabs-training/ocsp-responder:latest
+docker run -d -e ROOT_DOMAIN=demo.redislabs.com -e OCSP_URL=http://127.0.0.1:2560 --name ocsp -p 2560:2560 ocsp-responder:latest
 ```
 
 ## Creating Certs
@@ -60,7 +63,13 @@ docker exec -it ocsp ./get_key cluster-1 > /etc/opt/redislabs/cluster-1_key.pem
 And the cert CA chain:
 
 ```
-docker exec -it ocsp ./get_chain cluster-1 > /etc/opt/redislabs/ca-chain.pem
+docker exec -it ocsp ./get_chain > /etc/opt/redislabs/ca-chain.pem
+```
+
+or just the intermediate:
+
+```
+docker exec -it ocsp ./get_cert intermediate > /etc/opt/redislabs/ca-intermediate.pem
 ```
 
 ## OCSP Status
@@ -68,7 +77,7 @@ docker exec -it ocsp ./get_chain cluster-1 > /etc/opt/redislabs/ca-chain.pem
 Get the OCSP response for the cert using openssl to query the OCSP responder port in the container
 
 ```
-openssl ocsp -CAfile chain.pem -url http://127.0.0.1:2560 -issuer intermediate.pem -cert cluster-1_cert.pem
+openssl ocsp -CAfile ca-chain.pem -url http://127.0.0.1:2560 -issuer ca-intermediate.pem -cert cluster-1_cert.pem
 ```
 
 expected response:
