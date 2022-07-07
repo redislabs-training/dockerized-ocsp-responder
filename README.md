@@ -10,11 +10,81 @@ This is a very simple docker wrapper around openssl to give a basic CA and OCSP 
 
 ## Running
 
+Pass in a root doamin for the CA and the OCSP URL you would like to have in the OCSP extension in the certificates (this will be used as the OCSP responder to validate the cert).
+
+```
+docker run -d -e ROOT_DOMAIN=demo.redislabs.com -e OCSP_URL=http://127.0.0.1:2560 --name ocsp ghcr.io/redislabs-training/ocsp-responder:latest
+```
+
+## Creating Certs
+
+### Creating Certificates with a wildcard for a domain
+
+Provide a certificate name and domain:
+
+```
+docker exec -it ocsp ./create_san_wildcard_cert cluster-1 kurt-re.demo.redislabs.com
+```
+
+### Creating Certificates for clients or without the wildcard
+
+```
+docker exec -it ocsp ./create_cert client-1 client.redis
+```
+
+## Creating a new cert 
+
+If you revoke a cert (see below) and would like to create a new cert with the same domain just call one of the create methods with a new name.
+
+Example:
+
+```
+docker exec -it ocsp ./create_san_wildcard_cert cluster-2 kurt-re.demo.redislabs.com
+```
 
 
-## Creating Certificates
+## Retrieving
+
+Retrieve the cert using it's name
+
+```
+docker exec -it ocsp ./get_cert cluster-1 > /etc/opt/redislabs/cluster-1_cert.pem
+```
+
+You can also get the key:
+
+```
+docker exec -it ocsp ./get_key cluster-1 > /etc/opt/redislabs/cluster-1_key.pem
+```
+
+And the cert CA chain:
+
+```
+docker exec -it ocsp ./get_chain cluster-1 > /etc/opt/redislabs/ca-chain.pem
+```
+
+## OCSP Status
+
+Get the OCSP response for the cert using openssl to query the OCSP responder port in the container
+
+```
+openssl ocsp -CAfile chain.pem -url http://127.0.0.1:2560 -issuer intermediate.pem -cert cluster-1_cert.pem
+```
+
+expected response:
+
+```
+Response verify OK
+proxy.pem: good
+        This Update: Jun 30 23:18:31 2022 GMT
+```
+
 
 ## Revoking
+
+```
+docker exec -it ocsp ./revoke_cert cluster-1
+```
 
 ## Credit
 
