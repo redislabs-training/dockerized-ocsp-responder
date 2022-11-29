@@ -9,7 +9,7 @@ openssl req -config /root/tls/openssl.cnf \
       -key /root/tls/private/ca.key.pem \
       -new -x509 -days 3650 -sha256 -extensions v3_ca \
       -out /root/tls/certs/ca.cert.pem \
-      -subj "/C=US/ST=TESTING/L=TESTING/O=TESTING/OU=OSCPTESTING/CN=intermediate-cert.$ROOT_DOMAIN/EMAIL=sec@$ROOT_DOMAIN"
+      -subj "/C=US/ST=CA/L=TE/O=TEST/OU=TESTING/CN=intermediate-cert.$ROOT_DOMAIN/EMAIL=sec@$ROOT_DOMAIN"
 
 
 echo "Created Root Certificate"
@@ -25,7 +25,7 @@ openssl req -config intermediate/openssl.cnf \
       -key /root/tls/intermediate/private/intermediate.key.pem \
       -new -sha256 \
       -out /root/tls/intermediate/csr/intermediate.csr.pem \
-      -subj "/C=US/ST=TESTING/L=TESTING/O=TESTING/OU=OSCPTESTING/CN=intermediate-cert.$ROOT_DOMAIN/EMAIL=sec@$ROOT_DOMAIN"
+      -subj "/C=US/ST=CA/L=TE/O=TEST/OU=TESTING/CN=intermediate-cert.$ROOT_DOMAIN/EMAIL=sec@$ROOT_DOMAIN"
 
 
 echo "Created Intermediate CSR"
@@ -57,7 +57,7 @@ openssl req -config /root/tls/intermediate/openssl.cnf -new -sha256 \
       -key /root/tls/intermediate/private/ocsp.key.pem \
       -out /root/tls/intermediate/csr/ocsp.csr.pem \
       -nodes \
-      -subj "/C=US/ST=TESTING/L=TESTING/O=TESTING/OU=OSCPTESTING/CN=ocsp-cert.$ROOT_DOMAIN/EMAIL=sec@$ROOT_DOMAIN"
+      -subj "/C=US/ST=CA/L=TE/O=TEST/OU=TESTING/CN=ocsp-cert.$ROOT_DOMAIN/EMAIL=sec@$ROOT_DOMAIN"
 
 
 #Sign it

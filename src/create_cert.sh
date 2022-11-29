@@ -7,7 +7,7 @@ chmod 400 /root/tls/intermediate/private/$1.key.pem > /dev/null 2>&1
 
 openssl req -key /root/tls/intermediate/private/$1.key.pem \
       -new -sha256 -out /root/tls/intermediate/csr/$1.csr.pem \
-      -subj "/C=US/ST=TESTING/L=TESTING/O=TESTING/OU=OSCPTESTING/CN=$2/EMAIL=cert-req@$ROOT_DOMAIN" \
+      -subj "/C=US/ST=CA/L=TE/O=TEST/OU=TESTING/CN=$2/EMAIL=cert-req@$ROOT_DOMAIN" \
       -config /root/tls/intermediate/openssl.cnf > /dev/null 2>&1
 
 echo -e "y\ny\n" | openssl ca -config /root/tls/intermediate/openssl.cnf \
