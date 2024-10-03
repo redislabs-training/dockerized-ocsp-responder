@@ -31,7 +31,7 @@ openssl req -config intermediate/openssl.cnf \
 echo "Created Intermediate CSR"
 
 #Creating an intermediate certificate, by signing the previous csr with the CA key based on root ca config with the directive v3_intermediate_ca extension to sign the intermediate CSR
-openssl ca -config openssl.cnf -extensions v3_intermediate_ca -days 2650 -notext -batch -in intermediate/csr/intermediate.csr.pem -out intermediate/certs/intermediate.cert.pem
+openssl ca -config /root/tls/openssl.cnf -extensions v3_intermediate_ca -days 2650 -notext -batch -in intermediate/csr/intermediate.csr.pem -out intermediate/certs/intermediate.cert.pem
 
 echo "Created Intermediate Certificate Signed by root CA"
 

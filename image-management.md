@@ -7,7 +7,7 @@ docker build --no-cache -t ocsp-responder .
 ## Tag a new image
 
 ```
-docker tag ocsp-responder ghcr.io/redislabs-training/ocsp-responder/ocsp-responder:0.2.1
+docker tag ocsp-responder ghcr.io/redislabs-training/ocsp-responder/ocsp-responder:0.2.3
 docker tag ocsp-responder ghcr.io/redislabs-training/ocsp-responder/ocsp-responder:latest
 ```
 
